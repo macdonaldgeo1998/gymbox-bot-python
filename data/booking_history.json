@@ -1,0 +1,36 @@
+{
+  "2026-03-12|Gymbox Elephant & Castle|Reppin'|13:15": {
+    "booked": true,
+    "reason": null,
+    "matched_class": {
+      "name": "Reppin'",
+      "time": "13:15",
+      "date": "2026-03-12",
+      "location": "Gymbox Elephant & Castle",
+      "raw_text": "Reppin', 01:15 PM - 02:00 PM, With trainer Kylie Bond, Gymbox Elephant & Castle"
+    },
+    "target": {
+      "date": "2026-03-12",
+      "class_name": "Reppin'",
+      "time": "13:15",
+      "club_name": "Gymbox Elephant & Castle"
+    }
+  },
+  "2026-03-13|Gymbox Elephant & Castle|Bike & Beats|12:30": {
+    "booked": true,
+    "reason": null,
+    "matched_class": {
+      "name": "Bike & Beats",
+      "time": "12:30",
+      "date": "2026-03-13",
+      "location": "Gymbox Elephant & Castle",
+      "raw_text": "Bike & Beats, 12:30 PM - 01:15 PM, With trainer Abbie Lindores, Gymbox Elephant & Castle"
+    },
+    "target": {
+      "date": "2026-03-13",
+      "class_name": "Bike & Beats",
+      "time": "12:30",
+      "club_name": "Gymbox Elephant & Castle"
+    }
+  }
+}
