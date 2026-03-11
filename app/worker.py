@@ -6,7 +6,6 @@ from datetime import date
 from gymbox.config import load_config
 from gymbox.service import GymboxService
 
-
 def get_gymbox_service() -> GymboxService:
     cfg = load_config()
     return GymboxService(

@@ -1,0 +1,81 @@
+name: Gymbox Booking Bot
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_date:
+        description: "Optional explicit class date (YYYY-MM-DD)"
+        required: false
+        type: string
+  schedule:
+    - cron: "0 6 * * *"
+
+concurrency:
+  group: gymbox-booking
+  cancel-in-progress: false
+
+jobs:
+  run-booking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      GYMBOX_EMAIL: ${{ secrets.GYMBOX_EMAIL }}
+      GYMBOX_PASSWORD: ${{ secrets.GYMBOX_PASSWORD }}
+
+      GYMBOX_DEFAULT_CLUB: "Gymbox Elephant & Castle"
+      GYMBOX_HEADLESS: "false"
+      GYMBOX_SLOW_MO: "200"
+
+      CLASSES_PATH: "data/classes.json"
+      CLASSES_BY_DAY_PATH: "data/classes_by_day.json"
+      BOOKING_HISTORY_PATH: "data/booking_history.json"
+
+      WORKER_MODE: "once"
+      WORKER_INTERVAL_SECONDS: "300"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright
+        run: |
+          python -m playwright install --with-deps chromium
+
+      - name: Debug environment
+        run: |
+          echo "Working directory:"
+          pwd
+          echo "Files:"
+          find . -maxdepth 3 -type f | sort
+          echo "Python version:"
+          python --version
+
+      - name: Run worker
+        run: |
+          if [ -n "${{ github.event.inputs.run_date }}" ]; then
+            python -m app.worker "${{ github.event.inputs.run_date }}"
+          else
+            python -m app.worker
+          fi
+
+      - name: Upload debug artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gymbox-debug
+          path: |
+            screenshots/
+            logs/
+            playwright-report/
+          if-no-files-found: ignore

@@ -16,3 +16,6 @@ ENV/
 # Local data & secrets
 data/config.json
 logs/
+
+# Ignore .env file containing sensitive information
+.env
