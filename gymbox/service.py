@@ -113,23 +113,7 @@ class GymboxService:
 
     def run_scheduled_bookings_for_class_date(self, class_date: str) -> list[dict]:
         targets = self.get_targets_for_class_date(class_date)
-
-        results: list[dict] = []
-        for target in targets:
-            try:
-                result = self.book_target(target)
-                results.append(result.to_dict())
-            except Exception as exc:
-                results.append(
-                    BookingResult(
-                        booked=False,
-                        reason=str(exc),
-                        matched_class=None,
-                        target=target.to_dict(),
-                    ).to_dict()
-                )
-
-        return results
+        return self.run_booking_targets(targets)
 
     def get_targets_for_run_date(self, run_date: str) -> list[ClassTarget]:
         weekly_targets = weekly_targets_to_run_targets(
@@ -147,13 +131,9 @@ class GymboxService:
 
         return dated_targets + weekly_targets
 
-    def run_scheduled_bookings(self, run_date: str | None = None) -> list[dict]:
-        if run_date is None:
-            run_date = dt_date.today().isoformat()
-
-        targets = self.get_targets_for_run_date(run_date)
-
+    def run_booking_targets(self, targets: list[ClassTarget]) -> list[dict]:
         results: list[dict] = []
+
         for target in targets:
             try:
                 result = self.book_target(target)
@@ -169,3 +149,10 @@ class GymboxService:
                 )
 
         return results
+
+    def run_scheduled_bookings(self, run_date: str | None = None) -> list[dict]:
+        if run_date is None:
+            run_date = dt_date.today().isoformat()
+
+        targets = self.get_targets_for_run_date(run_date)
+        return self.run_booking_targets(targets)
