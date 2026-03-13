@@ -144,7 +144,7 @@ def run_once(run_date: str | None = None, class_date: str | None = None) -> None
         )
 
         if not remaining_targets:
-            print("\nAll targets booked successfully before final attempt.")
+            print("\nAll targets booked successfully before remaining attempts.")
             return
 
         print(
