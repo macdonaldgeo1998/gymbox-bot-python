@@ -32,5 +32,22 @@
       "time": "12:30",
       "club_name": "Gymbox Elephant & Castle"
     }
+  },
+  "2026-03-16|Gymbox Farringdon|Reformer Pilat3s - Tone|06:45": {
+    "booked": true,
+    "reason": null,
+    "matched_class": {
+      "name": "Reformer Pilat3s - Tone",
+      "time": "06:45",
+      "date": "2026-03-16",
+      "location": "Gymbox Farringdon",
+      "raw_text": "Reformer Pilat3s - Tone, 06:45 AM - 07:45 AM, With trainer Hester Campbell, Gymbox Farringdon"
+    },
+    "target": {
+      "date": "2026-03-16",
+      "class_name": "Reformer Pilat3s - Tone",
+      "time": "06:45",
+      "club_name": "Gymbox Farringdon"
+    }
   }
 }

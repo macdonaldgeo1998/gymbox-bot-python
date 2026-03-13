@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: "25 4 * * 5" # GMT version; change to 20 minutes before booking window opens
+    - cron: "55 10 * * 5" # GMT version; change to 20 minutes before booking window opens
 
 concurrency:
   group: gymbox-booking
@@ -35,7 +35,7 @@ jobs:
       WORKER_INTERVAL_SECONDS: "300"
 
       BOOKING_TIMEZONE: "Europe/London"
-      BOOKING_ATTEMPT_TIMES: "04:30,04:35,04:45"
+      BOOKING_ATTEMPT_TIMES: "11:00,11:05,11:15"
 
     steps:
       - name: Checkout repo

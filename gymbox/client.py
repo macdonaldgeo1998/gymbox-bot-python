@@ -90,6 +90,26 @@ class GymboxBrowserClient:
         s = re.sub(r"\s+", " ", s).strip()
         return s
 
+    @staticmethod
+    def _weeks_ahead_of_current_week(
+        iso_date: str,
+        today: Optional[dt.date] = None,
+    ) -> int:
+        """
+        Returns how many 'next week' clicks are needed to reach the week
+        containing iso_date, assuming the timetable initially opens on the
+        current week.
+        """
+        if today is None:
+            today = dt.date.today()
+
+        target_date = dt.datetime.strptime(iso_date, "%Y-%m-%d").date()
+
+        current_week_monday = today - dt.timedelta(days=today.weekday())
+        target_week_monday = target_date - dt.timedelta(days=target_date.weekday())
+
+        return max(0, (target_week_monday - current_week_monday).days // 7)
+
     def _extract_button_text(self, btn: Locator) -> str:
         for fn in (
             lambda: btn.get_attribute("aria-label"),
@@ -219,6 +239,27 @@ class GymboxBrowserClient:
         page.wait_for_load_state("networkidle")
         page.wait_for_timeout(1200)
 
+    def _navigate_to_target_week(self, iso_date: str) -> None:
+        page = self._page
+        assert page is not None
+
+        week_jumps = self._weeks_ahead_of_current_week(iso_date)
+
+        if week_jumps == 0:
+            return
+
+        for jump_index in range(week_jumps):
+            try:
+                next_btn = page.get_by_role("button", name="Arrow right")
+                next_btn.first.click(timeout=5000)
+                page.wait_for_timeout(1000)
+                page.wait_for_load_state("networkidle")
+            except Exception as exc:
+                raise RuntimeError(
+                    f"Could not move timetable to target week for {iso_date} "
+                    f"(failed on jump {jump_index + 1} of {week_jumps})"
+                ) from exc
+
     def _click_date_or_weekday(self, iso_date: str) -> None:
         page = self._page
         assert page is not None
@@ -306,6 +347,7 @@ class GymboxBrowserClient:
         date = date or dt.date.today().isoformat()
 
         self._open_booking_page(target_club)
+        self._navigate_to_target_week(date)
         self._click_date_or_weekday(date)
 
         page.wait_for_load_state("networkidle")
