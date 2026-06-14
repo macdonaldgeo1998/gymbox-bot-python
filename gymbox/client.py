@@ -269,10 +269,17 @@ class GymboxBrowserClient:
         day = str(d.day)
         weekday = d.strftime("%A")
 
+        if d.day < 10:
+            day_str = d.strftime("%d")  # zero-padded, e.g. "09"
+        else:
+            day_str = day  # no padding needed, e.g. "15"
+
         candidates = [
-            f"{month} {day},",
-            f"{month} {day}",
-            f"{weekday} {day}",
+            f"{day_str} {month},",
+            f"{day_str} {month}",
+            f"{month} {day_str},",
+            f"{month} {day_str}",
+            f"{weekday} {day_str}",
         ]
 
         for text in candidates:
