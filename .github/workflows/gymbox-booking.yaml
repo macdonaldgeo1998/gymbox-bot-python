@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: "58 13 * * 6" # Opens at every Saturday at 13:58 GMT (14:58 BST)
+    - cron: "58 14 * * 1" # Opens on every Monday at 14:58 GMT (15:58 BST)
 
 concurrency:
   group: gymbox-booking
@@ -35,7 +35,7 @@ jobs:
       WORKER_INTERVAL_SECONDS: "300"
 
       BOOKING_TIMEZONE: "Europe/London"
-      BOOKING_ATTEMPT_TIMES: "15:15,15:25,15:30,15:31"
+      BOOKING_ATTEMPT_TIMES: "16:00,16:15,16:30,16:31"
 
     steps:
       - name: Checkout repo
