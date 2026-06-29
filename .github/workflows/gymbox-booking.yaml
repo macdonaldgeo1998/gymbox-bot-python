@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: "58 14 * * 1" # Opens on every Monday at 14:58 GMT (15:58 BST)
+    - cron: "40 14 * * 1" # Opens on every Monday at 14:40 GMT (15:40 BST)
 
 concurrency:
   group: gymbox-booking
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   run-booking:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     env:
       GYMBOX_EMAIL: ${{ secrets.GYMBOX_EMAIL }}
@@ -35,7 +35,7 @@ jobs:
       WORKER_INTERVAL_SECONDS: "300"
 
       BOOKING_TIMEZONE: "Europe/London"
-      BOOKING_ATTEMPT_TIMES: "16:00,16:15,16:30,16:31"
+      BOOKING_ATTEMPT_TIMES: "16:15,16:16,16:17,16:18,16:30,16:31"
 
     steps:
       - name: Checkout repo
