@@ -35,7 +35,7 @@ jobs:
       WORKER_INTERVAL_SECONDS: "300"
 
       BOOKING_TIMEZONE: "Europe/London"
-      BOOKING_ATTEMPT_TIMES: "15:10,15:14,15:15,15:16,15:17,15:18"
+      BOOKING_ATTEMPT_TIMES: "15:15,15:29,15:30,15:31,15:32"
 
     steps:
       - name: Checkout repo
